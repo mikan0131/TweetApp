@@ -1,0 +1,60 @@
+.copy-container span{
+    color:red;
+}
+
+.copy-container h1{
+    font-size:140px;
+    margin:0 auto;
+    color:white;
+}
+
+.copy-container h2 {
+    margin:0 auto;
+    font-size:60px;
+    color:white;
+}
+
+.copy-container{
+    padding:30px;
+    border-bottom: 1px solid rgb(150, 150, 150);
+    text-align: center;
+    background-image:url('/static/img/copy-container-background.jpg');
+    background-size:cover;
+    background-color:rgba(255, 255, 255, 0.5);
+}
+
+.about{
+    text-align: center;
+    justify-content: center;
+}
+
+.about h1{
+    border-bottom:2px solid red;
+    width:50%;
+    margin:20px auto;
+}
+
+.contents-item p{
+    margin:0 auto;
+}
+
+.about-contents{
+    justify-content: center;
+    align-content: center;
+    display: flex;
+}
+
+.contents-item{
+    padding:0px 30px;
+}
+
+.login-bur{
+    position:absolute;
+    z-index:10;
+    background-color:rgb(250, 143, 161);
+    color:red;
+    border-radius: 10px;
+    float:right;
+    padding:10px;
+    size:30px;
+}

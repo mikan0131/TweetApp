@@ -1,0 +1,49 @@
+header{
+    height: 60px;
+    background-color:rgb(30, 78, 141);
+}
+
+header {
+    font-family: sans-serif;
+}
+
+header p{
+    font-size:20px;
+}
+
+.header-logo{
+    float:left;
+    padding-left:10px;
+    color:white;
+}
+
+.header-holder{
+    color:white;
+    list-style: none;
+    float:right;
+    font-size:20px;
+    position:absolute;
+    z-index: 30px;
+}
+
+.header-holder li{
+    margin:auto;
+    margin-bottom:20px;
+}
+
+a {
+    text-decoration:none;
+    color:inherit;
+}
+
+a:hover{
+    opacity: 0.5;
+}
+
+html {
+    margin:0 auto;
+}
+
+.icons {
+    font-weight: 400;
+}

@@ -1,0 +1,35 @@
+{% extends 'layout.html'%}
+{% block static %}
+    <link rel = 'stylesheet' href = '/static/css/index.css'>
+    <script src = '/static/js/index.js'></script>
+{% endblock %}
+{% block content %}
+    {% if login == True %}
+        <div id = 'login-bur' class = 'login-bur'>
+            <p>Yay! You logged in <br>successfully!</p>
+        </div>
+    {% endif %}
+    <div class = 'copy-container'>
+        <h1 class = 'copy'>Hello TweetApp<span>!</span></h1>
+        <h2 class = 'copy'>TALK TO BE HAPPY<span>.</span></h2>
+    </div>
+    <div class = 'about'>
+        <h1 id = 'border-about'>About us</h1>
+        <p>これは情報を共有するために作られたWebサービスです</p>
+        <div class = 'about-contents'>
+            <div class = 'contents-item'>
+                <img src = '/static/img/about-content-1.png'>
+                <p>会議などでの情報共有に</p>
+            </div>
+            <div class = 'contents-item'>
+                <img src = '/static/img/about-content-2.png'>
+                <p>人との間の交流に</p>
+            </div>
+            <div class = 'contents-item'>
+                <img src = '/static/img/about-content-3.png'>
+                <p>自分の仲間を見つける手段に</p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block static %}
+    <link rel = 'stylesheet' href = '/static/css/login.css'>
+    <script src = '/static/js/login.js'></script>
+{% endblock %}
+{% block content %}
+    <div class = 'login-form'>
+        <h1>Login</h1>
+        <form action = '/login' method = 'post'>
+            <input class = 'username-form form' placeholder = 'username' type ='text' name = 'user_name'>
+            <p></p>
+            <input class = 'password-form form' placeholder = 'password' type ='password' name = 'password'>
+            <p></p>
+            <button class = 'enter-button' type = 'submit'>ENTER</button>
+        </form>
+    </div>
+    {% if login == False %}
+        <div id = 'login-failed-bur' class = 'login-failed-bur'>Sorry, You can't login <br>this account. Please retry.</div>
+    {% endif %}
+    <a class = 'register-link' href = '/register'>Don't you have an account? Register here.</a>
+{% endblock %}
+

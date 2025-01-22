@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+{% block static %}
+<link rel = 'stylesheet' href = '/static/css/profile.css'>
+{% endblock %}
+{% block content %}
+<!-- data:name, email, groups(Array) -->
+<div id = 'profile' class = 'profile'>
+    <div id = 'profiel-header' class = 'profile-header'>
+        <img id = 'profile-icon' class = 'profile-icon' src = '/static/favicon.ico' width = '100' height = '100'>
+        <div class = 'profile-short'>
+            <p id = 'profile-name' class = 'profile-name'><a href = '/profile/{{name}}'>@{{name}}</a></p>
+            <div class = 'profile-email'>
+                <i class="fa-solid fa-envelope icons email-icon"></i>
+                <p>{{email}}</p>
+            </div>
+        </div>
+    </div>
+    <div id = 'profile-body' class = 'profile-body'>
+        <div class = 'profile-docs'>
+            
+        </div>
+        
+        <div class = 'profile-groups'>
+            <h2>所属グループ</h2>
+            <table>
+                {% for group in groups %}
+                    <tr>
+                        <td><h3>{{group}}</h3></td>
+                        <td><a href = '/groups/{{group}}'>表示</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

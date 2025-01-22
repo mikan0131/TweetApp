@@ -1,0 +1,57 @@
+.profile {
+    height:100%;
+    width:70%;
+    overflow: hidden;
+    margin:0 auto;
+    margin-top:30px;
+}
+
+.profile-header {
+    overflow:hidden;
+    background-color:cyan;
+    border:none;
+    border-radius:10px;
+}
+.profile-icon {
+    border-radius: 50%;
+    border:5px solid blue;
+    float:left;
+    margin:10px;
+}
+
+/*
+.profile-name {
+    font-weight: bold;
+    font-size:30px;
+    float:left;
+}
+*/
+
+.profile-icon {
+    background-color: white;
+}
+
+
+.profile-short {
+    float:left;
+    margin-left:10px;
+}
+
+.profile-name {
+    font-weight: bold;
+    font-size:30px;
+}
+
+.profile-email i, p{
+    float:left;
+    text-align: center;
+}
+
+.profile-email p {
+    margin:0px 0px 0px 10px;
+}
+
+.email-icon {
+
+    font-weight: 400;
+}

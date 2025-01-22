@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% block static %}
+    <link rel = 'stylesheet' href = '/static/css/register.css'>
+    <script src = '/static/js/register.js'></script>
+{% endblock %}
+{% block content %}
+<div class = 'login-form'>
+    <h1>Register</h1>
+    <form action = '/send_email_verify' method = 'post'>
+        <div id = 'username-form'>
+            <input class = 'username-form form' placeholder = 'username' type ='text' name = 'user_name' autofocus>
+            <p class = 'alert'>↑未入力です</p>
+        </div>
+        <div id = 'password-form'>
+            <input class = 'password-form form' placeholder = 'password' type ='password' name = 'password'>
+            <p class = 'alert'>↑未入力です</p>
+        </div>
+        <div id = 'confirmpassword-form'>
+            <input class = 'confirmpassword-form form' placeholder = 'verify your password' type = 'password' name = 'passowordConfirm'>
+            <p class = 'alert'>↑未入力です</p>
+            <p id = 'confirm-alert'>↑パスワードと確認用パスワードが一致しません</p>
+        </div>
+        <div id = 'email-form'>
+            <input class = 'email-form form' placeholder = 'info@example.com' type = 'email' name = 'email'>
+            <p class = 'alert'>↑未入力です</p>
+        </div>
+        <button id = 'enter-button' class = 'enter-button' type = 'submit'>ENTER</button>
+    </form>
+</div>
+{% endblock %}
