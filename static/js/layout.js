@@ -7,4 +7,9 @@ $(function() {
             $('.list').hide();
         }
     )
+    $('.list').hover(
+        function() {
+            $('.list').show();
+        }
+    )
 });

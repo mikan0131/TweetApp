@@ -23,7 +23,6 @@ header p{
     float:right;
     font-size:20px;
     position:absolute;
-    z-index: 30px;
 }
 
 .header-holder li{
