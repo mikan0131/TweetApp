@@ -20,14 +20,15 @@ header p{
 .header-holder{
     color:white;
     list-style: none;
-    float:right;
     font-size:20px;
+    z-index:20;
     position:absolute;
+    right:40px;
 }
 
 .header-holder li{
     margin:auto;
-    margin-bottom:20px;
+    padding-bottom:20px;
 }
 
 a {

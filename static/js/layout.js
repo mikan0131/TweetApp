@@ -1,15 +1,16 @@
 $(function() {
-    $('#username').hover(
+    var show = true;
+    $('.list').hide();
+    $('#username').click(
         function() {
-            $('.list').show();
-        },
-        function() {
-            $('.list').hide();
-        }
-    )
-    $('.list').hover(
-        function() {
-            $('.list').show();
+            if (show) {
+                $('.list').slideDown();
+                show = false;
+            }
+            else {
+                $('.list').slideUp();
+                show = true;
+            }
         }
     )
 });
