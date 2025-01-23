@@ -5,7 +5,7 @@
         <title>TweetApp</title>
         <link rel = 'stylesheet' href = '/static/css/layout.css'>
         <link rel = 'icon' href = '{{ url_for('static', filename = 'favicon.ico')}}'>
-        <!--animarions' script-->
+        <!--animations' script-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src = '/static/js/layout.js'></script>
         <!--icons' css-->
@@ -18,14 +18,16 @@
             <img id = 'icon' class = 'header-logo' src = '/static/favicon.ico' width = 60 height 60>
             <p class = 'header-logo'><a href = '/'>TweetApp</a></p>
             <ul id = 'header-holder' class = 'header-holder'>
-                <li id = 'username'>{{ session['username'] }}</li>
                 {% if session['login'] == 'ok'%}
+                    <li id = 'username'>{{ session['username'] }}</li>
                     <li class = 'list'><a href = '/profile/{{ session['username'] }}'>プロファイル</a></li>
                     <li class = 'list'><a href = '/new'>Connect?</a></li>
+                    <li class = 'list'><a href = '/logout'>ログアウト</a></li>
                 {% endif %}
                 {% if session['login'] != 'ok' %}
+                    <li id = 'username'>? ? ? ?</li>
                     <li class = 'list'><a href = '/login'>ログイン</a></li>
-                    <li class = 'list'><a href = '/logout'>ログアウト</a></li>
+                    <li class = 'list'><a href = '/register'>新規登録</a></li>
                 {% endif %}
             </ul>
         </header>
