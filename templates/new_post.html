@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+{% block static %}
+    <link rel = 'stylesheet' href = '/static/css/new_post.css'>
+{% endblock %}
+{% block content %}
+    <div class = 'new-post-form'>
+        <form action = '/send_new_post' method = 'post'>
+            <p>Conetnt</p>
+            <textarea class = 'new-post-content' name = 'content' placeholder = 'Post?'></textarea>
+            <label for = 'private'>private</label>
+            <input type = 'checkbox' class = 'private' name = 'private'>
+            <p>To Groups?</p>
+            {% for group in groups %}
+                <label for = 'group__{{group}}'>{{group}}</label>
+                <input type = 'checkbox' class = 'group' name = 'group__{{group}}'>
+                <p></p>
+            {% endfor %}
+            <p>To Addresses?</p>
+            {% for address in addresses %}
+                <label for = 'address__{{address}}'>{{address}}</label>
+                <input type = 'checkbox' class = 'address' name = 'address' name = 'address__{{address}}'>
+                <p></p>
+            {% endfor %}
+        </form>
+    </div>
+{% endblock %}

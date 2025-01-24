@@ -1,0 +1,22 @@
+textarea{
+    resize:none;
+    padding:20px;
+}
+
+.new-post-form{
+    width:70%;
+    margin:0 auto;
+    justify-content: center;
+}
+
+.new-post-content {
+    width:500px;
+    height:300px;
+    font-size:20px;
+    outline:0;
+}
+
+.new-post-form p {
+    font-weight:bold;
+    font-size:30px;
+}

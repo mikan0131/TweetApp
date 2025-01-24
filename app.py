@@ -3,13 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 import os
 import hashlib
 from datetime import timedelta
-from email import message
-import smtplib
 # ! Flask-MarkdownのインポートはFlaskのバージョンダウンにより解決(Flask==2.3.3)
-from flaskext.markdown import Markdown
+# from flaskext.markdown import Markdown
 
 app = Flask(__name__)
-Markdown(app)
+# Markdown(app)
 
 # ! セッションのセキュリティー
 app.config['SECRET_KEY'] = b'AsDfGhJkLqWeRtY%#_e' # セッション暗号化キー
@@ -35,7 +33,14 @@ class User(db.Model):
   name = db.Column(db.Text())
   mail_address = db.Column(db.Text())
   password_hash_md5 = db.Column(db.Text())
-  groups = db.Column(db.Text())
+  groups = db.Column(db.JSON())
+  addresses = db.Column(db.JSON())
+
+class Posts(db.Model):
+  __tablename__ = 'posts'
+  id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+  from_address = db.Column(db.Text())
+  to_address = db.Column(db.Text())
 
 # * パスワードの一致をチェック
 def check_login(username, password_hash):
@@ -48,10 +53,15 @@ def check_login(username, password_hash):
   else:
     return False
 
-def print_groups(name):
-  G = User.query.filter(User.name == name)
-  if G[0].groups is not None:
-    groups = G[0].groups.split(',')
+# * データベースから配列出力
+def print_array(name, type):
+  if (type == 'groups'):
+    G = User.query.filter(User.name == name).first().groups
+  if (type == 'addresses'):
+    G = User.query.filter(User.name == name).first().addresses
+  # ! G == NULLならからの配列を返す
+  if G is not None:
+    groups = G
     return groups
   return []
 
@@ -65,13 +75,6 @@ def index():
 @app.route('/favicon.ico')
 def favicon():
   return send_from_directory(os.path.join(app.root_path, 'static/img'), 'favicon.ico', )
-
-"""
-# login form
-@app.route('/login')
-def login():
-  return render_template('login.html')
-"""
 
 # * ログインフォーム
 @app.route('/login', methods = ['POST', 'GET'])
@@ -110,7 +113,7 @@ def entry():
   if (User.query.filter(User.name == name) == False):
     return render_template('send_email_verify_error.html')
   
-  #TODO:確認用メール
+  # TODO:確認用メール
   '''
   smtp_host = 'smtp.gamil.com'
   smtp_port = 587
@@ -148,7 +151,7 @@ def entry():
 @app.route('/profile/<string:name>', methods = ['GET'])
 def profile(name):
   if (User.query.filter(User.name == name).count() == True):
-    return render_template('profile.html', name = name, email = User.query.filter(User.name == name)[0].mail_address, groups = print_groups(name))
+    return render_template('profile.html', name = name, email = User.query.filter(User.name == name)[0].mail_address, groups = print_array(name))
   else:
     return render_template('not_found.html')
 
@@ -156,7 +159,16 @@ def profile(name):
 @app.route('/logout')
 def logout():
   session['login'] = 'none'
+  session['username'] = '????'
   return redirect(url_for('index'))
+
+# * 新規ポスト作成
+@app.route('/new')
+def new_post():
+  if (session['login'] == 'ok'):
+    return render_template('new_post.html', groups = print_array(session['username'], 'groups'), addresses = print_array(session['username'], 'addresses'))
+  else:
+    return redirect(url_for('login_form'))
 
 # * リクエスト前の設定
 @app.before_request
