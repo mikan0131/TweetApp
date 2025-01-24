@@ -1,6 +1,7 @@
 textarea{
     resize:none;
     padding:20px;
+    font-family: sans-serif;
 }
 
 .new-post-form{
@@ -14,6 +15,12 @@ textarea{
     height:300px;
     font-size:20px;
     outline:0;
+    border:3px solid, aqua;
+    border-radius: 6px;
+}
+
+.new-post-content:focus {
+    box-shadow: 4px 4px 4px
 }
 
 .new-post-form p {

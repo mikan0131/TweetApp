@@ -40,7 +40,9 @@ class Posts(db.Model):
   __tablename__ = 'posts'
   id = db.Column(db.Integer, primary_key = True, autoincrement = True)
   from_address = db.Column(db.Text())
-  to_address = db.Column(db.Text())
+  to_address = db.Column(db.JSON())
+  to_groups = db.Column(db.JSON())
+  created_at = db.Column(db.Date)
 
 # * パスワードの一致をチェック
 def check_login(username, password_hash):
@@ -169,6 +171,24 @@ def new_post():
     return render_template('new_post.html', groups = print_array(session['username'], 'groups'), addresses = print_array(session['username'], 'addresses'))
   else:
     return redirect(url_for('login_form'))
+
+@app.route('/send_new_post', methods = ['POST'])
+def send_new_post():
+  content = request.form['content']
+  to_groups = []
+  to_addresses = []
+  for group in print_array(session['username'], 'group'):
+    if request.form[group] == True:
+      to_groups.append(group)
+  for address in print_array(session['username'], 'address'):
+    if request.form[address] == True:
+      to_addresses.append(address)
+  new_post = Posts()
+  new_post.from_address = request.form['from_address']
+  new_post.to_address = to_addresses
+  new_post.to_groups = to_groups
+  db.session.add(new_post)
+  db.session.commit()
 
 # * リクエスト前の設定
 @app.before_request

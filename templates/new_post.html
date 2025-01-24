@@ -7,7 +7,8 @@
         <form action = '/send_new_post' method = 'post'>
             <p>Conetnt</p>
             <textarea class = 'new-post-content' name = 'content' placeholder = 'Post?'></textarea>
-            <label for = 'private'>private</label>
+            <p></p>
+            <label for = 'private'>private?</label>
             <input type = 'checkbox' class = 'private' name = 'private'>
             <p>To Groups?</p>
             {% for group in groups %}
