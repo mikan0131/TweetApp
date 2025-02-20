@@ -1,8 +1,11 @@
 from flask import Flask, render_template, send_from_directory, request, redirect, flash, url_for, make_response, session
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
+from datetime import datetime
 import os
 import hashlib
 from datetime import timedelta
+import json
 # ! Flask-MarkdownのインポートはFlaskのバージョンダウンにより解決(Flask==2.3.3)
 # from flaskext.markdown import Markdown
 
@@ -38,11 +41,20 @@ class User(db.Model):
 
 class Posts(db.Model):
   __tablename__ = 'posts'
-  id = db.Column(db.Integer, primary_key = True, autoincrement = True)
   from_address = db.Column(db.Text())
-  to_address = db.Column(db.JSON())
-  to_groups = db.Column(db.JSON())
-  created_at = db.Column(db.Date)
+  to_group = db.Column(db.Text())
+  to_address = db.Column(db.Text())
+  content = db.Column(db.Text())
+  created_at = db.Column(db.DateTime, default = datetime.utcnow)
+  id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+
+class Groups(db.Model):
+  __tablename__ = 'groups'
+  id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+  groups_name = db.Column(db.Text())
+  from_address = db.Column(db.Text())
+  post_content = db.Column(db.Text())
+  created_at = db.Column(db.DateTime, default = datetime.utcnow)
 
 # * パスワードの一致をチェック
 def check_login(username, password_hash):
@@ -57,6 +69,7 @@ def check_login(username, password_hash):
 
 # * データベースから配列出力
 def print_array(name, type):
+  G = []
   if (type == 'groups'):
     G = User.query.filter(User.name == name).first().groups
   if (type == 'addresses'):
@@ -70,6 +83,7 @@ def print_array(name, type):
 # * トップページ
 @app.route('/')
 def index():
+  flash('Hello')
   login = session['login'] == 'ok'
   return render_template('index.html', login = login)
 
@@ -153,7 +167,7 @@ def entry():
 @app.route('/profile/<string:name>', methods = ['GET'])
 def profile(name):
   if (User.query.filter(User.name == name).count() == True):
-    return render_template('profile.html', name = name, email = User.query.filter(User.name == name)[0].mail_address, groups = print_array(name))
+    return render_template('profile.html', name = name, email = User.query.filter(User.name == name)[0].mail_address, groups = print_array(name, 'groups'))
   else:
     return render_template('not_found.html')
 
@@ -175,20 +189,27 @@ def new_post():
 @app.route('/send_new_post', methods = ['POST'])
 def send_new_post():
   content = request.form['content']
-  to_groups = []
-  to_addresses = []
-  for group in print_array(session['username'], 'group'):
-    if request.form[group] == True:
-      to_groups.append(group)
-  for address in print_array(session['username'], 'address'):
-    if request.form[address] == True:
-      to_addresses.append(address)
   new_post = Posts()
-  new_post.from_address = request.form['from_address']
-  new_post.to_address = to_addresses
-  new_post.to_groups = to_groups
+  new_post.content = content
+  new_post.from_address = session['username']
+  if 'group' in request.form:
+    new_post.to_group = request.form['group']
+  if 'address' in request.form:
+    new_post.to_address = request.form['address']
   db.session.add(new_post)
   db.session.commit()
+  return redirect(url_for('index'))
+
+# * グループを表示
+@app.route('/groups/<string:group>')
+def show_group(group):
+  my_groups = print_array(session['username'], 'groups')
+  print(my_groups)
+  if (my_groups.count(group)):
+    posts = Posts.query.filter(Posts.to_group == group).all()
+    return "Progressing..."
+  else:
+    return "<h1>You can't see this group. Please login first.</h1>"
 
 # * リクエスト前の設定
 @app.before_request

@@ -27,3 +27,18 @@ textarea{
     font-weight:bold;
     font-size:30px;
 }
+
+.submit-button {
+    width:200px;
+    height:60px;
+    font-size:30px;
+    border:none;
+    background-color:rgb(30, 78, 141);
+    color:white;
+    border-radius: 10px;
+}
+
+.group {
+    height:50px;
+    width:50px;
+}

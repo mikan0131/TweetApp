@@ -8,20 +8,27 @@
             <p>Conetnt</p>
             <textarea class = 'new-post-content' name = 'content' placeholder = 'Post?'></textarea>
             <p></p>
-            <label for = 'private'>private?</label>
             <input type = 'checkbox' class = 'private' name = 'private'>
-            <p>To Groups?</p>
-            {% for group in groups %}
-                <label for = 'group__{{group}}'>{{group}}</label>
-                <input type = 'checkbox' class = 'group' name = 'group__{{group}}'>
-                <p></p>
-            {% endfor %}
-            <p>To Addresses?</p>
-            {% for address in addresses %}
-                <label for = 'address__{{address}}'>{{address}}</label>
-                <input type = 'checkbox' class = 'address' name = 'address' name = 'address__{{address}}'>
-                <p></p>
-            {% endfor %}
+            {% if groups != [] %}
+                <p>To Groups?</p>
+            {% endif %}
+            <label for = 'group'>
+                {% for group in groups %}
+                    {{group}}
+                    <input type = 'radio' name = 'group' value = '{{group}}'>
+                {% endfor %}
+            </label>
+            {% if addresses != [] %}
+                <p>To Addresses?</p>
+            {% endif %}
+            <label for = 'address'>
+                {% for address in addresses %}
+                    {{address}}
+                    <input type = 'radio' name = 'address'>
+                {% endfor %}
+            </label>
+            <p></p>
+            <button class = 'submit-button' type = 'submit'>POST</button>
         </form>
     </div>
 {% endblock %}
