@@ -55,3 +55,7 @@
 
     font-weight: 400;
 }
+
+span{
+    border-bottom:solid 3px red;
+}

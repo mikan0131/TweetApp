@@ -1,0 +1,15 @@
+User
+id => Integer, primary_key, autoincrement
+name => Text
+mail_address => Text
+password_hash_md5 => Text
+groups => JSON
+addresses => JSON
+
+Posts
+from_address => Text
+to_group => Text
+to_address => Text
+content => Text
+created_at => TimeStamp, default = utcnow
+

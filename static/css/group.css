@@ -1,0 +1,38 @@
+.group-post-form {
+    padding:5px;
+    border:solid 2px gray;
+    border-radius: 10px;
+}
+
+.group-post-form h2 {
+    margin-left:10px;
+}
+
+textarea {
+    width:70%;
+    height:100px;
+    outline: none;
+    border:solid 1px gray;
+    border-radius:5px;
+    padding:10px;
+    font-family: Arial;
+    font-size:medium;
+    margin:10px;
+}
+
+.show-post {
+    border-bottom:solid 3px black;
+    padding-top:5px;
+    padding-bottom:5px;
+}
+
+.group-post-form button {
+    width:60px;
+    height:30px;
+    margin-left:10px;
+    margin-bottom:0;
+    font-size:20px;
+    background-color:rgb(30, 78, 141);
+    color:white;
+    border-radius: 3px;
+}

@@ -3,5 +3,38 @@
     <link rel = 'stylesheet' href = '/static/css/group.css'>
 {% endblock %}
 {% block content %}
-    <h1>Group {{ group }}</h1>
-    
+    <div class = 'group'>
+        <h1>Posts of {{ group }}</h1>
+        <div class = 'group-post-form'>
+            <h2>New Post</h2>
+            <form action = '/send_new_post' method = 'post'>
+                <textarea name = 'content'></textarea>
+                <p></p>
+                group:
+                <select name = 'group'>
+                    <option value = '{{group}}'>{{group}}</option>
+                </select>
+                address:
+                <select name = 'address'>
+                    <option value = ''>選択しない</option>
+                </select>
+                <button type = 'submit'>Post</button>
+            </form>
+        </div>
+        <div class = 'group-posts'>
+            {% for post in posts %}
+                <div class = 'show-post'>
+                    <a href = '/profile/{{post.from_address}}'>@{{post.from_address}}</a>
+                    <p>{{post.content | cr}}</p> <!-- フィルターcrで改行 -->
+                    <p>{{post.created_at}}</p>
+                    <a href = "/edit/{{post.id}}">
+                        <i nowrap class="fa-solid fa-pen"></i>
+                    </a>
+                    <a href = "/delete/{{post.id}}">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

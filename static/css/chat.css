@@ -1,0 +1,55 @@
+.chat-form {
+    height:100px;
+    width:auto;
+    margin-top:10px;
+    border-bottom:solid 3px rgb(124, 124, 124);
+}
+
+.chat-content {
+    width:70%;
+    height:30px;
+    font-size:20px;
+    font-family:Arial;
+}
+
+span {
+    font-size:small;
+    opacity:0.5;
+}
+
+.chat-submit {
+    height:25px;
+    margin-left:10px;
+}
+
+.inside-post {
+    width:100%;
+    height:auto;
+    overflow: auto;
+    margin:5px auto;
+}
+
+.chat-left {
+    text-align: left;
+    width:200px;
+    float:left;
+}
+
+.chat-right {
+    text-align: left;
+    float:right;
+    width:200px;
+}
+
+.post-content {
+    height:auto;
+    font-size:15px;
+    background-color:chartreuse;
+    border-radius: 5px;
+    padding:3px;
+    overflow-wrap: break-word;
+}
+
+.post-content p {
+    margin:0 auto;
+}

@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block static %}
+    <link rel = 'stylesheet' href = '/static/css/edit.css'>
+{% endblock %}
+{% block content %}
+    <h1>Edit post 10</h1>
+    <form action = '/send_edit/{{id}}' method = 'post'>
+        <label>
+            <h2>Content ※この編集では内容の編集のみです</h2>
+            <textarea name = 'content'>{{default}}</textarea>
+            <p></p>
+            <button type = 'submit'>Edit</button>
+        </label>
+    </form>
+{% endblock %}

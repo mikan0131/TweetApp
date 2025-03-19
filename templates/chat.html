@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+{% block static %}
+    <link rel= 'stylesheet' href = '/static/css/chat.css'>
+{% endblock %}
+{% block content %}
+    <form class = 'chat-form' method = 'post' action = '/send_message'>
+        <textarea class = 'chat-content' name = 'content' type = 'text' placeholder = 'メッセージを入力'></textarea>
+        <button class = 'chat-submit' type = 'submit'><i class="fa-solid fa-paper-plane"></i></button>
+        <p></p>
+        <label class = 'chat-address'>
+            from:
+            <select name = 'from'>
+                <option value = {{session['username']}}>{{session['username']}}</option>
+            </select>
+            to:
+            <select name = 'to'>
+                <option value = {{address}}>{{address}}</option>
+            </select>
+        </label>
+    </form>
+    <div class = 'chat-posts'>
+        {% for post in posts %}
+        <div class = 'inside-post'>
+            {% if post.from_address == session['username'] %}
+            <div class = 'chat-left'>
+            {% else %}
+            <div class = 'chat-right'>
+            {% endif %}
+                
+                <p class = 'author'>{{post.from_address}}  <span>{{post.created_at}}</span></p>
+                <div class = 'post-content'>
+                    <p>{{post.content | cr}}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

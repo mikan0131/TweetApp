@@ -15,13 +15,17 @@
     </head>
     <body>
         <header>
-            <img id = 'icon' class = 'header-logo' src = '/static/favicon.ico' width = 60 height 60>
+            <img id = 'icon' class = 'header-logo' src = '/static/favicon.ico' width = 60 height = 60>
             <p class = 'header-logo'><a href = '/'>TweetApp</a></p>
+            <i class="search-icon fa-solid fa-magnifying-glass"></i>
+            <form class = 'search' action = '/search' method = 'get'>
+                <input class = 'search-input' name = 'word'>
+            </form>
             <ul id = 'header-holder' class = 'header-holder'>
                 {% if session['login'] == 'ok'%}
                     <li id = 'username'>{{ session['username'] }}</li>
                     <li class = 'list'><a href = '/profile/{{ session['username'] }}'>プロファイル</a></li>
-                    <li class = 'list'><a href = '/new'>Connect?</a></li>
+                    <!-- <li class = 'list'><a href = '/new'>Connect?</a></li> -->
                     <li class = 'list'><a href = '/logout'>ログアウト</a></li>
                 {% endif %}
                 {% if session['login'] != 'ok' %}

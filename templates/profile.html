@@ -21,15 +21,35 @@
         </div>
         
         <div class = 'profile-groups'>
-            <h2>所属グループ</h2>
-            <table>
-                {% for group in groups %}
-                    <tr>
-                        <td><h3>{{group}}</h3></td>
-                        <td><a href = '/groups/{{group}}'>表示</a></td>
-                    </tr>
+            <h2><span>所属グループ</span></h2>
+            
+            {% for group in groups %}
+                <div class = 'group-profile'>
+                    <h2>{{group}}</h2>
+                    <a href = '/groups/{{group}}'>Go!</a>
+                </div>
+            {% endfor %}
+            
+        </div>
+        {% if session["username"] == name %}
+        <div class = 'profile-addresses'>
+            <h2><span>ともだち</span></h2>
+                {% for address in addresses %}
+                    <div class = 'address-profile'>
+                        <h2>{{address}}</h2>
+                        <a href = '/chat/{{address}}'>Go!</a>
+                    </div>
                 {% endfor %}
-            </table>
+        </div>
+        {% endif %}
+        <div class = 'request'>
+            <h2><span>友達申請</span></h2>
+            {% for request in requests %}
+                <div class = 'request-profile'>
+                    <h2>{{request}}</h2>
+                    <a href = '/accept_address/{{request}}'>Acccept</a>
+                </div>
+            {% endfor %}
         </div>
     </div>
 </div>

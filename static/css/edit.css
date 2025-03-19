@@ -1,0 +1,21 @@
+textarea {
+    width:70%;
+    height:100px;
+    outline:none;
+    padding:10px;
+    font-size:20px;
+    font-family:Arial
+}
+
+button {
+    height:50px;
+    width:100px;
+    font-size: 30px;
+    background-color:rgb(30, 78, 141);
+    color:white;
+    border-radius:3px;
+}
+
+button:focus {
+    opacity:0.7;
+}
