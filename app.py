@@ -22,7 +22,7 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'Lax' # クロスサイトリクエス�
 user = 'root'
 host = 'localhost'
 database = 'tweet_app'
-password = 'BTBmurata2348.pss'
+password = '****'
 
 db_uri = f'mysql+pymysql://{user}:{password}@{host}/{database}?charset=utf8'
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
