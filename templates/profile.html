@@ -27,8 +27,8 @@
         </div>
         
         <div class = 'profile-groups'>
-            <h2><span>所属グループ</span></h2>
-            
+            <h2><span>所属グループ  </span></h2>
+            <a href = '/new_group' class="group-host fa-solid fa-plus">新規</a>
             {% for group in groups %}
                 <div class = 'group-profile'>
                     <h2>{{group}}</h2>
@@ -42,8 +42,7 @@
             <h2><span>ともだち</span></h2>
                 {% for address in addresses %}
                     <div class = 'address-profile'>
-                        <h2>{{address}}</h2>
-                        <a href = '/chat/{{address}}'>Go!</a>
+                        <h2><a href = '/chat/{{address}}'>{{address}}   </a><a href = '/kick/{{address}}'class="fa-solid fa-trash"></a></h2>
                     </div>
                 {% endfor %}
         </div>

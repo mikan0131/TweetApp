@@ -54,6 +54,7 @@ class Groups(db.Model):
   name = db.Column(db.Text())
   password_hash_md5 = db.Column(db.Text())
   about = db.Column(db.Text())
+  owner = db.Column(db.Text())
 
 # * パスワードの一致をチェック
 def check_login(username, password_hash):
@@ -148,10 +149,10 @@ def profile(name):
     friends = User.query.filter(User.name == name).first().addresses
     request_ok = True
     if isinstance(friends, list):
-      print('!')
-      print(friends)
+      #print('!')
+      #print(friends)
       if (friends.count(session['username']) == True):
-        print('!')
+        #print('!')
         request_ok = False
     print(request_ok)
     return render_template('profile.html', name = name, email = User.query.filter(User.name == name)[0].mail_address, groups = print_array(name, 'groups'), \
@@ -339,9 +340,13 @@ def search():
 @app.route('/invite/<string:group>')
 def invite(group):
   if (Groups.query.filter(Groups.name == group).count() == True):
+    if (User.query.filter(User.name == session['username']).first() != None):
+      if (User.query.filter(User.name == session['username']).first().groups.count(group) == True):
+        redirect(url_for('show_group', group = group))
     return render_template('invite.html', group = group)
   else:
     return "<h1>That group is not exist</h1>"
+
 
 
 
@@ -350,8 +355,56 @@ def invite(group):
 def new_group():
   return render_template('new_group.html')
 
-@app.route('/create_group')
+@app.route('/create_group', methods = ['POST'])
+def create_group():
+  group_name = request.form['name']
+  if (Groups.query.filter(Groups.name == group_name).count() == True):
+    return "<h1>You can't use that group name. Try again.</h1>"
+  group_password = request.form['password']
+  group_about = request.form['about']
+  new_group = Groups()
+  new_group.name = group_name
+  enc_password = bytes(group_password, encoding = 'utf-8')
+  password_hash = hashlib.md5(enc_password).hexdigest()
+  new_group.password_hash_md5 = password_hash
+  new_group.about = group_about
+  new_group.owner = session['username']
+  me = User.query.filter(User.name == session['username']).first()
+  send = []
+  if (isinstance(me.groups, list) == True):
+    send = me.groups
+    send.append(group_name)
+  else:
+    send.append(group_name)
+  me.groups = send
+  db.session.commit()
+  db.session.add(new_group)
+  db.session.commit()
+  return f"<h1>Yay! You created group {group_name}! You are an owner of this group!</h1>"
 
+# * 友達をキック
+@app.route('/kick/<string:address>')
+def kick(address):
+  me = User.query.filter(User.name == session['username']).first()
+  if (isinstance(me.addresses, list)):
+    if (me.addresses.count(address) == True):
+      print('!')
+      send_m = me.addresses
+      send_m.remove(address)
+      db.session.commit()
+      me.addresses = send_m
+      db.session.commit()
+      kick = User.query.filter(User.name == address).first()
+      send_k = kick.addresses
+      send_k.remove(me.name)
+      db.session.commit()
+      kick.addresses = send_k
+      db.session.commit()
+      return redirect(url_for('profile', name = session['username']))
+    else:
+      return f"<h1>You and {address} are not friends.</h1>"
+  else:
+    return redirect(url_for('profile', name = session['username']))
 
 # * リクエスト前の設定
 @app.before_request

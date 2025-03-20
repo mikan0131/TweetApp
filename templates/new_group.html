@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block static %}
+    <link rel = 'stylesheet' href = '/static/css/new_group.css'>
+{% endblock %}
+{% block content %}
+    <form class = 'group-form' action = '/create_group' method = 'post'>
+        <h1>グループを作りましょう！</h1>
+        <input name = 'name' placeholder = 'Group name'>
+        <p></p>
+        <input type = 'password' name = 'password' placeholder = 'Group password'>
+        <p></p>
+        <textarea name = 'about' placeholder = 'About this group'></textarea>
+        <p></p>
+        <button type = 'submit'>Create a new Group!</button>
+    </form>
+{% endblock %}

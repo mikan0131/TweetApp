@@ -92,3 +92,7 @@ select,
 select {
     width:auto;
 }
+
+html {
+    font-family: Arial, Helvetica, sans-serif;
+}

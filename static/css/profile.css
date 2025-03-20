@@ -78,3 +78,8 @@ span{
 .already {
     opacity:0.5;
 }
+
+.group-host {
+    scale:150%;
+    margin-left:10px;
+}
