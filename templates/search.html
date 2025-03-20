@@ -1,3 +1,31 @@
 {% extends "layout.html" %}
 {% block static %}
     <link rel = 'stylesheet' href = '/static/css/search.css'>
+{% endblock %}
+{% block content %}
+    <h1>検索の結果、{{size}}のユーザー、グループがヒットしました</h1>
+    <div class = 'search-group'>
+        <h2><span>ユーザー</span></h2>
+        {% for user in users %}
+            <div class = 'content'>
+                <li>
+                    <ul>
+                        {{user.name}}
+                        <a href = '/profile/{{user.name}}'>詳細表示</a>
+                    </ul>
+                </li>
+            </div>
+        {% endfor %}
+        <h2><span>グループ</span></h2>
+        {% for group in groups %}
+            <div class = 'content'>
+                <li>
+                    <ul>
+                        {{group.name}}
+                        <a href = '/groups/{{group.name}}'>詳細表示</a>
+                    </ul>
+                </li>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

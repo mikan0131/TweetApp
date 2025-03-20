@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block static %}
+    <link rel = 'stylesheet' href = '/static/css/invite.css'>
+{% endblock %}
+{% block content %}
+    <i class="fa-solid fa-lock"></i>
+    <form action = '/check_invite/{{group}}' method = 'post'>
+        <input class = 'group-password'>
+        <button class = 'group-password-submit' type = 'submit'>Submit</button>
+    </form>
+{% endblock %}

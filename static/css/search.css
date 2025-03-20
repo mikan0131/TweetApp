@@ -1,0 +1,13 @@
+.content ul {
+    margin:0 auto;
+    margin-bottom:20px;
+    padding:0;
+}
+
+.content li {
+    list-style: none;
+}
+
+span {
+    border-bottom:solid 3px red;
+}

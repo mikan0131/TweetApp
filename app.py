@@ -80,14 +80,6 @@ def print_array(name, type):
     groups = G
     return groups
   return []
-
-# * チャットで表示する投稿を判別
-def chat_post_check(user, name, from_address, to_address):
-  if ((user == from_address and name == to_address)\
-    or (user == to_address and name == from_address)):
-    return True
-  else:
-    return False
   
 
 # * トップページ
@@ -153,8 +145,17 @@ def entry():
 @app.route('/profile/<string:name>', methods = ['GET'])
 def profile(name):
   if (User.query.filter(User.name == name).count() == True):
+    friends = User.query.filter(User.name == name).first().addresses
+    request_ok = True
+    if isinstance(friends, list):
+      print('!')
+      print(friends)
+      if (friends.count(session['username']) == True):
+        print('!')
+        request_ok = False
+    print(request_ok)
     return render_template('profile.html', name = name, email = User.query.filter(User.name == name)[0].mail_address, groups = print_array(name, 'groups'), \
-      addresses = print_array(name, 'addresses'), requests = print_array(name, 'requests'))
+      addresses = print_array(name, 'addresses'), requests = print_array(name, 'requests'), request_ok = request_ok)
   else:
     return render_template('not_found.html')
 
@@ -260,28 +261,97 @@ def send_message():
 # * 友達申請
 @app.route("/request/<string:address>")
 def friend_request(address):
-  user = User.query.filter(User.name == address).all()
-  ok = True
-  if len(user) == 0: ok = False
-  if ok == True:
-    user = User.query.filter(User.name == address).first()
-    send = user.request
-    if user.request is None:
-      send = [session['username']]
+  if (User.query.filter(User.name == address).count() == False):
+    return "<h1>You can't send this request.(This user is not exist)</h1>"
+  your_friend = User.query.filter(User.name == session['username']).first().addresses
+  send = []
+  if (not isinstance(your_friend, list)):
+    send.append(session['username'])
+  elif (your_friend.count(address) == True):
+    return "<h1>You can't send this request.(This user is already your friend)</h1>"
+  else:
+    send = User.query.filter(User.name == address).first().request
+    send.append(session['username'])
+  User.query.filter(User.name == address).first().request = send
+  db.session.commit()
+  return f'You sent a request to {address} successfully!'
+# * 友達申請受け入れ
+@app.route('/accept_address/<string:address>')
+def accept_address(address):
+  requested_user = User.query.filter(User.name == session['username']).first()
+  requested_list = print_array(session['username'], 'requests')
+  if address in requested_list:
+    requested_list.remove(address)
+    accepted_user = User.query.filter(User.name == address).first()
+    requested_after = requested_user.addresses
+    accepted_after = accepted_user.addresses
+    if (accepted_after is None):
+      accepted_after = [session['username']]
+      db.session.commit()
     else:
-      send.append(session['username'])
-    user.request = send
+      accepted_after.append(session['username'])
+    if (requested_after is None):
+      requested_after = [address]
+      db.session.commit()
+    else:
+      requested_after.append(address)
+      db.session.commit()
+    requested_user.addresses = requested_after
     db.session.commit()
-  return render_template("request_ok.html", ok = ok)
+    accepted_user.addresses = accepted_after
+    db.session.commit()
+    requested_user.request = requested_list
+    db.session.commit()
+    return redirect(url_for('show_chat', address = address))
+  else:
+    return redirect(url_for('index'))
+
+# * 友達申請拒否
+@app.route('/reject_address/<string:address>')
+def reject_address(address):
+  requested_user = User.query.filter(User.name == session['username']).first()
+  db.session.commit()
+  rejected_user = None
+  if (User.query.filter(User.name == address).count() == True):
+    rejected_user = User.query.filter(User.name == address).first()
+    db.session.commit()
+  if rejected_user is None:
+    return "<h1>You can't reject this user. (This user is not exist)</h1>"
+  if not requested_user.request.count(rejected_user.name):
+    return "<h1>You can't reject this user. (This user didn't send you a request)</h1>"
+  send_list = requested_user.request
+  send_list.remove(rejected_user.name)
+  db.session.commit()
+  requested_user.request = send_list
+  db.session.commit()
+  return redirect(url_for("profile", name = session['username']))
 
 # * 検索
-@app.route('/search', methods = ['POST', 'GET'])
+@app.route('/search', methods = ['GET'])
 def search():
-  word = request.form['word']
-  users = User.query.filter(word in User.name).all()
-  groups = Groups.query.filter(word in User.name).all()
+  word = request.args.get("word")
+  users = User.query.filter(User.name.like("%" + word + "%")).all()
+  groups = Groups.query.filter(Groups.name.like("%" + word + "%")).all()
   size = len(users) + len(groups)
   return render_template("search.html", word = word, users = users, groups = groups, size = size)
+
+# * グループロック
+@app.route('/invite/<string:group>')
+def invite(group):
+  if (Groups.query.filter(Groups.name == group).count() == True):
+    return render_template('invite.html', group = group)
+  else:
+    return "<h1>That group is not exist</h1>"
+
+
+
+# * 新規グループ
+@app.route('/new_group')
+def new_group():
+  return render_template('new_group.html')
+
+@app.route('/create_group')
+
 
 # * リクエスト前の設定
 @app.before_request

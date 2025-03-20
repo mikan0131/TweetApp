@@ -9,11 +9,17 @@
         <img id = 'profile-icon' class = 'profile-icon' src = '/static/favicon.ico' width = '100' height = '100'>
         <div class = 'profile-short'>
             <p id = 'profile-name' class = 'profile-name'><a href = '/profile/{{name}}'>@{{name}}</a></p>
+            <p></p>
             <div class = 'profile-email'>
                 <i class="fa-solid fa-envelope icons email-icon"></i>
                 <p>{{email}}</p>
             </div>
         </div>
+        {% if request_ok == True %}
+            <a class = 'request-button' href = '/request/{{name}}'>友達リクエストを送る</a>
+        {% else %}
+            <p class = 'already request-button'>この人とはもう友達です</p>
+        {% endif %}
     </div>
     <div id = 'profile-body' class = 'profile-body'>
         <div class = 'profile-docs'>
@@ -42,15 +48,18 @@
                 {% endfor %}
         </div>
         {% endif %}
+        {% if session['username'] == name %}
         <div class = 'request'>
-            <h2><span>友達申請</span></h2>
+            <h2><span>あなたへの友達申請</span></h2>
             {% for request in requests %}
                 <div class = 'request-profile'>
                     <h2>{{request}}</h2>
                     <a href = '/accept_address/{{request}}'>Acccept</a>
+                    <a href = '/reject_address/{{request}}'>Reject</a>
                 </div>
             {% endfor %}
         </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

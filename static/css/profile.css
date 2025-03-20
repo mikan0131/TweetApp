@@ -40,11 +40,15 @@
 .profile-name {
     font-weight: bold;
     font-size:30px;
+    width:100%;
+}
+
+.profile-email {
+    height:20px;
 }
 
 .profile-email i, p{
     float:left;
-    text-align: center;
 }
 
 .profile-email p {
@@ -53,9 +57,24 @@
 
 .email-icon {
 
-    font-weight: 400;
+    scale:150%;
 }
 
 span{
     border-bottom:solid 3px red;
+}
+
+.request-button {
+    float:right;
+    margin-top:80px;
+    margin-right:20px;
+    border:solid 1px black;
+    border-radius:15px;
+    padding:5px;
+    background-color:blue;
+    color:white;
+}
+
+.already {
+    opacity:0.5;
 }
