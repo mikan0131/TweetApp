@@ -348,6 +348,7 @@ def invite(group):
   else:
     return "<h1>That group is not exist</h1>"
 
+# * グループパスワード確認
 @app.route('/check_invite/<string:group>', methods = ['POST'])
 def check_invite(group):
   if Groups.query.filter(Groups.name == group).count() == False:
