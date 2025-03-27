@@ -4,6 +4,7 @@
 
 .instruction {
     margin-top:50px;
+    margin-bottom: 20px;
     text-align: center;
 }
 
@@ -27,4 +28,9 @@
 
 .group-password-submit:hover {
     opacity: 0.5;
+}
+
+.fa-lock {
+    scale: 450%;
+    margin:auto;
 }

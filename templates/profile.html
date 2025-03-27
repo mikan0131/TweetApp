@@ -30,10 +30,12 @@
         
         <div class = 'profile-groups'>
             <h2><span>所属グループ  </span></h2>
-            <a href = '/new_group' class="group-host fa-solid fa-plus">新規</a>
+            {% if session['username'] == name %}
+                <a href = '/new_group' class="group-host fa-solid fa-plus">新規</a>
+            {% endif %}
             {% for group in groups %}
                 <div class = 'group-profile'>
-                    <h2><a href = '/groups/{{group.name}}'>{{group.name}}</a></h2>
+                    <h2><a href = '/groups/{{group.name}}'>{{group.name}}</a> <a href = '/out/{{group.name}}'class="fa-solid fa-trash"></a></h2>
                     <p>{{group.about | cr}}</p>
                 </div>
                 <br>

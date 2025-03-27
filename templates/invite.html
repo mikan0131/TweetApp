@@ -8,6 +8,10 @@
         <h1>Please submit the password of this group.</h1>
     </div>
     <form class = 'password-form' action = '/check_invite/{{group}}' method = 'post'>
+        <div class = 'lock-icon'>
+            <i class="fa-solid fa-lock"></i>
+        </div>
+        <br>
         <input name = 'group-password' type = 'password' class = 'group-password' placeholder = 'password'>
         <br>
         <button class = 'group-password-submit' type = 'submit'>Submit</button>

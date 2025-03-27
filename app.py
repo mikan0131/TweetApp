@@ -22,7 +22,7 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'Lax' # クロスサイトリクエス�
 user = 'root'
 host = 'localhost'
 database = 'tweet_app'
-password = '****' #一応伏字
+password = 'BTBmurata2348.pss' #一応伏字
 
 db_uri = f'mysql+pymysql://{user}:{password}@{host}/{database}?charset=utf8'
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
@@ -195,7 +195,6 @@ def send_new_post():
 @app.route('/groups/<string:group>')
 def show_group(group):
   my_groups = print_array(session['username'], 'groups')
-  print(my_groups)
   if (my_groups.count(group)):
     posts = Posts.query.filter(Posts.to_group == group).all()
     posts.reverse()
@@ -340,10 +339,14 @@ def search():
 # * グループロック
 @app.route('/invite/<string:group>')
 def invite(group):
+  user = User.query.filter(User.name == session['username']).first()
+  this_group = Groups.query.filter(Groups.name == group).first()
   if (Groups.query.filter(Groups.name == group).count() == True):
-    if (User.query.filter(User.name == session['username']).first() != None):
-      if (User.query.filter(User.name == session['username']).first().groups.count(group) == True):
-        redirect(url_for('show_group', group = group))
+    if (isinstance(user.groups, list)):
+      if (print_array(session['username'], 'groups').count(group) == True):
+        return redirect(url_for('show_group', group = group))
+      else:
+        return render_template('invite.html', group = group)
     return render_template('invite.html', group = group)
   else:
     return "<h1>That group is not exist</h1>"
@@ -373,6 +376,19 @@ def check_invite(group):
   else:
     return redirect(url_for('invite', group = group))
 
+# * グループ削除
+@app.route('/out/<string:group>')
+def out(group):
+  user = User.query.filter(User.name == session['username']).first()
+  if (print_array(session['username'], 'groups').count(group) == False):
+    return redirect(url_for('profile', name = session['username']))
+  else:
+    my_groups = user.groups
+    my_groups.remove(group)
+    db.session.commit()
+    user.groups = my_groups
+    db.session.commit()
+    return redirect(url_for('profile', name = session['username']))
 
 # * 新規グループ
 @app.route('/new_group')
