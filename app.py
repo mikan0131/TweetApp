@@ -149,13 +149,14 @@ def profile(name):
     friends = User.query.filter(User.name == name).first().addresses
     request_ok = True
     if isinstance(friends, list):
-      #print('!')
-      #print(friends)
       if (friends.count(session['username']) == True):
-        #print('!')
         request_ok = False
-    print(request_ok)
-    return render_template('profile.html', name = name, email = User.query.filter(User.name == name)[0].mail_address, groups = print_array(name, 'groups'), \
+    groups = print_array(name, 'groups')
+    group_profiles = []
+    for g in groups:
+      profile = Groups.query.filter(Groups.name == g).first()
+      group_profiles.append(profile)
+    return render_template('profile.html', name = name, email = User.query.filter(User.name == name)[0].mail_address, groups = group_profiles, \
       addresses = print_array(name, 'addresses'), requests = print_array(name, 'requests'), request_ok = request_ok)
   else:
     return render_template('not_found.html')
@@ -200,7 +201,7 @@ def show_group(group):
     posts.reverse()
     return render_template('group.html', group = group, posts = posts)
   else:
-    return "<h1>You can't see this group. Please login first.</h1>"
+    return redirect(url_for('invite', group = group))
 
 # * ポスト編集
 @app.route('/edit/<int:id>', methods = ['GET'])
@@ -332,7 +333,7 @@ def reject_address(address):
 def search():
   word = request.args.get("word")
   users = User.query.filter(User.name.like("%" + word + "%")).all()
-  groups = Groups.query.filter(Groups.name.like("%" + word + "%")).all()
+  groups = Groups.query.filter(or_(Groups.name.like(f"%{word}%"), Groups.about.like(f"%{word}%"))).all()
   size = len(users) + len(groups)
   return render_template("search.html", word = word, users = users, groups = groups, size = size)
 
@@ -347,7 +348,29 @@ def invite(group):
   else:
     return "<h1>That group is not exist</h1>"
 
-
+@app.route('/check_invite/<string:group>', methods = ['POST'])
+def check_invite(group):
+  if Groups.query.filter(Groups.name == group).count() == False:
+    return "<h1>That group is not exist.</h1>"
+  Group = Groups.query.filter(Groups.name == group).first()
+  check_hash = Group.password_hash_md5
+  my_password = request.form['group-password']
+  enc_password = bytes(my_password, encoding = 'utf-8')
+  my_password_hash = hashlib.md5(enc_password).hexdigest()
+  if (my_password_hash == check_hash):
+    user = User.query.filter(User.name == session['username']).first()
+    send = user.groups
+    if isinstance(send, list):
+      send.append(group)
+      db.session.commit()
+    else:
+      send = [group]
+      db.session.commit()
+    user.groups = send
+    db.session.commit()
+    return redirect(url_for('show_group', group = group))
+  else:
+    return redirect(url_for('invite', group = group))
 
 
 # * 新規グループ

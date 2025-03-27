@@ -83,3 +83,7 @@ span{
     scale:150%;
     margin-left:10px;
 }
+
+.group-profile p {
+    margin:0 auto;
+}

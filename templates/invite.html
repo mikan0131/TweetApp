@@ -3,10 +3,13 @@
     <link rel = 'stylesheet' href = '/static/css/invite.css'>
 {% endblock %}
 {% block content %}
-    <i class="fa-solid fa-lock"></i>
-    <p></p>
-    <form action = '/check_invite/{{group}}' method = 'post'>
-        <input class = 'group-password'>
+    <div class = 'instruction'>
+        <h1>Group {{group}} is locked.</h1>
+        <h1>Please submit the password of this group.</h1>
+    </div>
+    <form class = 'password-form' action = '/check_invite/{{group}}' method = 'post'>
+        <input name = 'group-password' type = 'password' class = 'group-password' placeholder = 'password'>
+        <br>
         <button class = 'group-password-submit' type = 'submit'>Submit</button>
     </form>
 {% endblock %}

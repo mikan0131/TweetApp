@@ -1,6 +1,30 @@
-i {
-    scale:2000%;
-    position:absolute;
-    top:40%;
-    left:50%;
+.password-form {
+    text-align: center;
+}
+
+.instruction {
+    margin-top:50px;
+    text-align: center;
+}
+
+.group-password {
+    margin-top: 30px;
+    border:none;
+    border-bottom: solid 2px darkcyan;
+    outline: none;
+    text-align: center;
+    height: 40px;
+    font-size: 40px;
+}
+
+.group-password-submit {
+    height:30px;
+    width:100px;
+    font-size:20px;
+    margin-top: 20px;
+    background-color:aquamarine
+}
+
+.group-password-submit:hover {
+    opacity: 0.5;
 }

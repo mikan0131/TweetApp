@@ -15,10 +15,12 @@
                 <p>{{email}}</p>
             </div>
         </div>
-        {% if request_ok == True %}
-            <a class = 'request-button' href = '/request/{{name}}'>友達リクエストを送る</a>
-        {% else %}
-            <p class = 'already request-button'>この人とはもう友達です</p>
+        {% if session['username'] != name %}
+            {% if request_ok == True%}
+                <a class = 'request-button' href = '/request/{{name}}'>友達リクエストを送る</a>
+            {% else %}
+                <p class = 'already request-button'>この人とはもう友達です</p>
+            {% endif %}
         {% endif %}
     </div>
     <div id = 'profile-body' class = 'profile-body'>
@@ -31,12 +33,14 @@
             <a href = '/new_group' class="group-host fa-solid fa-plus">新規</a>
             {% for group in groups %}
                 <div class = 'group-profile'>
-                    <h2>{{group}}</h2>
-                    <a href = '/groups/{{group}}'>Go!</a>
+                    <h2><a href = '/groups/{{group.name}}'>{{group.name}}</a></h2>
+                    <p>{{group.about | cr}}</p>
                 </div>
+                <br>
             {% endfor %}
             
         </div>
+        <br>
         {% if session["username"] == name %}
         <div class = 'profile-addresses'>
             <h2><span>ともだち</span></h2>
